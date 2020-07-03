@@ -19,6 +19,7 @@ from edge import Edge
 # Don't need to modify me.
 class EdgeAlreadyExists(Exception):
     """Raised when edge already exists in the graph"""
+
     def __init__(self, message):
         super().__init__(message)
 
@@ -118,7 +119,7 @@ class Graph:
         # Euclidean Distance
         # sqrt( (x2-x1)^2 + (y2-y1)^2 )
 
-        return math.sqrt(((v.x_pos - u.x_pos)**2) + ((v.y_pos - u.y_pos)**2))
+        return math.sqrt(((v.x_pos - u.x_pos) ** 2) + ((v.y_pos - u.y_pos) ** 2))
 
     @staticmethod
     def opposite(e, v):
@@ -145,13 +146,10 @@ class Graph:
     def find_emergency_range(self, v):
         maxDist = 0
         for vert in self._vertices:
-            if self.distance(vert,v) > maxDist:
-             maxDist = self.distance(vert,v)
+            if self.distance(vert, v) > maxDist:
+                maxDist = self.distance(vert, v)
 
         print(maxDist)
-
-
-
 
         """
         Returns the distance to the vertex W that is furthest from V.
@@ -163,36 +161,23 @@ class Graph:
 
     def find_path(self, b, s, r):
 
-
         if r == 0:
             return None
-        
 
-
-
-
-        if b==s:
+        if b == s:
             singlepath = []
             singlepath.append(b)
             return singlepath
 
-        paths = self.Djikstra(b,s,r)
+        paths = self.Djikstra(b, s, r)
         paths.pop(0)
 
         maxDist = 0
         for item in paths:
-            if self.distance(b,item)<r:
-                return self.Djikstra(b,s,r)
+            if self.distance(b, item) < r:
+                return self.Djikstra(b, s, r)
             else:
                 return None
-
-
-
-
-
-
-
-
 
         """
         Find a path from vertex B to vertex S, such that the distance from B to
@@ -208,11 +193,10 @@ class Graph:
 
     def minimum_range(self, b, s):
 
-        if b==s:
+        if b == s:
             return 0
 
-
-        paths = self.Djikstra(b,s,99999999)
+        paths = self.Djikstra(b, s, 99999999)
         b = paths.pop(0)
         maxDist = 0
         for item in paths:
@@ -244,26 +228,22 @@ class Graph:
 
         return self.DjikstraHelper(end)
 
-
-
-
-
-    def getAllAdjacentVertices(self,node):
+    def getAllAdjacentVertices(self, node):
         adjV = []
         for edges in node.edges:
-           adjV.append(self.opposite(edges, node))
+            adjV.append(self.opposite(edges, node))
         return adjV
 
-    def BubbleSort(self,someList):
+    def BubbleSort(self, someList):
 
         n = len(someList)
-        for i in range(n-1):
-            for j in range(0,n-i-1):
-                if someList[j].weight > someList[j+1].weight:
-                    someList[j],someList[j+1] = someList[j+1],someList[j]
+        for i in range(n - 1):
+            for j in range(0, n - i - 1):
+                if someList[j].weight > someList[j + 1].weight:
+                    someList[j], someList[j + 1] = someList[j + 1], someList[j]
         return someList
 
-    def DjikstraHelper(self,end):
+    def DjikstraHelper(self, end):
         shortPath = []
         pointer = end
         if pointer.previous is not None:
@@ -272,7 +252,7 @@ class Graph:
                 pointer = pointer.previous
         return shortPath
 
-    def DjikstraPopulater(self,start):
+    def DjikstraPopulater(self, start):
         Tracker = []
 
         for vertices in self._vertices:
@@ -282,19 +262,13 @@ class Graph:
         start.weight = 0
         return Tracker
 
-
-
-    def move_vertex(self ,v, new_x, new_y):
+    def move_vertex(self, v, new_x, new_y):
 
         for item in self._vertices:
             if item.x_pos == new_x and item.y_pos == new_y:
                 break
         else:
-           v.move_vertex(new_x,new_y)
-
-
-
-
+            v.move_vertex(new_x, new_y)
 
         """
         Move the defined vertex.
@@ -311,17 +285,16 @@ class Graph:
 def main():
     G = Graph()
 
-    G.insert_vertex(0,0)
-    G.insert_vertex(1,1)
-    G.insert_vertex(2,2)
+    G.insert_vertex(0, 0)
+    G.insert_vertex(1, 1)
+    G.insert_vertex(2, 2)
 
-    G.insert_edge(G._vertices[0],G._vertices[1])
-    G.insert_edge(G._vertices[1],G._vertices[2])
-
+    G.insert_edge(G._vertices[0], G._vertices[1])
+    G.insert_edge(G._vertices[1], G._vertices[2])
 
     # Find the minimum range
 
-    print(G.find_path(G._vertices[0],G._vertices[2],0.1231))
+    print(G.find_path(G._vertices[0], G._vertices[2], 0.1231))
     # quick maths.
     expected_r = 98.02041
 
